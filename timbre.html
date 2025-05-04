@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seleccionar Piso y Departamento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    select {
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Selecciona el Piso</h1>
+  
+  <select id="pisoSelect" onchange="mostrarDepartamentos()">
+    <option value="">Selecciona un Piso</option>
+    <!-- Pisos disponibles -->
+    <option value="1">Piso 1</option>
+    <option value="2">Piso 2</option>
+    <option value="3">Piso 3</option>
+    <option value="4">Piso 4</option>
+    <option value="5">Piso 5</option>
+    <option value="6">Piso 6</option>
+    <option value="7">Piso 7</option>
+    <option value="8">Piso 8</option>
+    <option value="9">Piso 9</option>
+    <option value="10">Piso 10</option>
+    <option value="11">Piso 11</option>
+    <option value="12">Piso 12</option>
+    <option value="13">Piso 13</option>
+    <option value="14">Piso 14</option>
+    <option value="15">Piso 15</option>
+    <option value="16">Piso 16</option>
+    <option value="17">Piso 17</option>
+    <option value="18">Piso 18</option>
+    <option value="19">Piso 19</option>
+    <option value="20">Piso 20</option>
+  </select>
+
+  <div id="departamentos" style="display: none;">
+    <h2>Selecciona un Departamento</h2>
+    <select id="departamentoSelect">
+      <!-- Aquí se llenarán los departamentos -->
+    </select>
+    <button onclick="enviarTimbre()">Tocar Timbre</button>
+  </div>
+
+  <script>
+    function mostrarDepartamentos() {
+      const piso = document.getElementById('pisoSelect').value;
+      const deptoSelect = document.getElementById('departamentoSelect');
+      const departamentosDiv = document.getElementById('departamentos');
+      
+      if (piso) {
+        // Limpiar departamentos anteriores
+        deptoSelect.innerHTML = '';
+        
+        // Mostrar departamentos de la A a la T
+        for (let i = 65; i <= 84; i++) { // Código ASCII de A=65 y T=84
+          const depto = String.fromCharCode(i);
+          const option = document.createElement('option');
+          option.value = depto;
+          option.text = `Depto ${depto}`;
+          deptoSelect.appendChild(option);
+        }
+
+        // Mostrar la sección de departamentos
+        departamentosDiv.style.display = 'block';
+      } else {
+        departamentosDiv.style.display = 'none';
+      }
+    }
+
+    function enviarTimbre() {
+      const piso = document.getElementById('pisoSelect').value;
+      const departamento = document.getElementById('departamentoSelect').value;
+
+      // Aquí enviamos la notificación al inquilino correspondiente
+      fetch(`https://tu-api.com/timbre?piso=${piso}&depto=${departamento}`)
+        .then(response => {
+          if (response.ok) {
+            alert('¡Timbre enviado!');
+          } else {
+            alert('Error al enviar timbre.');
+          }
+        })
+        .catch(error => {
+          alert('Fallo de conexión.');
+        });
+    }
+  </script>
+</body>
+</html>
+
